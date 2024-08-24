@@ -151,6 +151,7 @@ export const Reflect = forwardRef<ReflectApi, ReflectProps>(
 			[bounce, far]
 		);
 
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		useLayoutEffect(() => void api.setRay(start, end), [...start, ...end]);
 		useImperativeHandle(fRef, () => api, [api]);
 

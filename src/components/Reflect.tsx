@@ -1,27 +1,11 @@
 import * as THREE from "three";
-import {
-  forwardRef,
-  useRef,
-  useMemo,
-  useLayoutEffect,
-  useImperativeHandle,
-} from "react";
+import { forwardRef, useRef, useMemo, useLayoutEffect, useImperativeHandle } from "react";
 import { invalidate } from "@react-three/fiber";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
-import {
-  ExtendObject3D,
-  ReflectApi,
-  ReflectEvent,
-  ReflectHit,
-  ReflectIntersect,
-  ReflectProps,
-} from "../types/Reflect.interfaces";
+import { ExtendObject3D, ReflectApi, ReflectEvent, ReflectHit, ReflectIntersect, ReflectProps } from "../types/Reflect.interfaces";
 
 function isRayMesh(object: ExtendObject3D) {
-  return (
-    object.isMesh &&
-    (object.onPointerOver || object.onPointerOut || object.onPointerMove)
-  );
+  return object.isMesh && (object.onPointerOver || object.onPointerOut || object.onPointerMove);
 }
 
 function createEvent(
@@ -45,17 +29,12 @@ function createEvent(
   };
 }
 
-function setRay(
-  api: ReflectApi,
-  start: [number, number, number],
-  end: [number, number, number]
-) {
+function setRay(api: ReflectApi, start: [number, number, number], end: [number, number, number]) {
   api.start.set(...start);
   api.end.set(...end);
 }
 
 function updateReflection(api: ReflectApi, bounce: number, far: number) {
-  
   const vStart = new THREE.Vector3();
   const vEnd = new THREE.Vector3();
   const vDir = new THREE.Vector3();
@@ -83,20 +62,13 @@ function updateReflection(api: ReflectApi, bounce: number, far: number) {
       intersect.direction = vDir.clone();
       // Something was hit and we still haven't met bounce limit
       intersect.point.toArray(api.positions, api.number++ * 3);
-      vDir.reflect(
-        intersect.object
-          .localToWorld(intersect.face.normal)
-          .sub(intersect.object.getWorldPosition(vPos))
-          .normalize()
-      );
+      vDir.reflect(intersect.object.localToWorld(intersect.face.normal).sub(intersect.object.getWorldPosition(vPos)).normalize());
       intersect.reflect = vDir.clone();
       // console.log(intersect.face.normal);
       vStart.copy(intersect.point);
     } else {
       // Nothing was hit and the ray extends into "infinity" (dir * far)
-      vEnd
-        .addVectors(vStart, vDir.multiplyScalar(far))
-        .toArray(api.positions, api.number++ * 3);
+      vEnd.addVectors(vStart, vDir.multiplyScalar(far)).toArray(api.positions, api.number++ * 3);
       break;
     }
   }
@@ -160,17 +132,7 @@ function updateReflection(api: ReflectApi, bounce: number, far: number) {
 }
 
 export const Reflect = forwardRef<ReflectApi, ReflectProps>(
-  (
-    {
-      children,
-      start = [0, 0, 0],
-      end = [0, 0, 0],
-      bounce = 10,
-      far = 100,
-      ...props
-    },
-    fRef
-  ) => {
+  ({ children, start = [0, 0, 0], end = [0, 0, 0], bounce = 10, far = 100, ...props }, fRef) => {
     bounce = (bounce || 1) + 1;
 
     const scene = useRef<THREE.Group>(null);
@@ -182,9 +144,7 @@ export const Reflect = forwardRef<ReflectApi, ReflectProps>(
         start: new THREE.Vector3(),
         end: new THREE.Vector3(),
         raycaster: new THREE.Raycaster(),
-        positions: new Float32Array(
-          Array.from({ length: (bounce + 10) * 3 }, () => 0)
-        ),
+        positions: new Float32Array(Array.from({ length: (bounce + 10) * 3 }, () => 0)),
         setRay: setRay.bind(null, api),
         update: updateReflection.bind(null, api, bounce, far),
       }),

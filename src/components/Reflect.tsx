@@ -7,6 +7,7 @@ import {
   useImperativeHandle,
 } from "react";
 import { invalidate } from "@react-three/fiber";
+import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import {
   ExtendObject3D,
   ReflectApi,
@@ -15,7 +16,6 @@ import {
   ReflectIntersect,
   ReflectProps,
 } from "../types/Reflect.interfaces";
-import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 
 function isRayMesh(object: ExtendObject3D) {
   return (

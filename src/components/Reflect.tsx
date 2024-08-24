@@ -5,7 +5,7 @@ import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events
 import { ExtendObject3D, ReflectApi, ReflectEvent, ReflectHit, ReflectIntersect, ReflectProps } from "../types/Reflect.interfaces";
 
 function isRayMesh(object: ExtendObject3D) {
-	return object.isMesh && (object.onPointerOver || object.onPointerOut || object.onPointerMove);
+	return object.isMesh && (object.onRayOver || object.onRayOut || object.onRayMove);
 }
 
 function createEvent(
@@ -74,23 +74,23 @@ function updateReflection(api: ReflectApi, bounce: number, far: number) {
 	}
 	// Reset and count up once again
 	api.number = 1;
-	// Check onPointerOut
+	// Check onRayOut
 	api.hits.forEach((hit) => {
 		// If a previous hit is no longer part of the intersects ...
 		if (!intersects.find((intersect) => intersect.object.uuid === hit.key)) {
 			// Remove the hit entry
 			api.hits.delete(hit.key);
-			// And call onPointerOut
-			if (hit.intersect.object.onPointerOut) {
+			// And call onRayOut
+			if (hit.intersect.object.onRayOut) {
 				invalidate();
-				hit.intersect.object.onPointerOut = (event) => {
+				hit.intersect.object.onRayOut = (event) => {
 					createEvent(event, api, hit, hit.intersect, intersects);
 				};
 			}
 		}
 	});
 
-	// Check onPointerOver
+	// Check onRayOver
 	for (intersect of intersects) {
 		api.number++;
 		// If the intersect hasn't been hit before
@@ -104,9 +104,9 @@ function updateReflection(api: ReflectApi, bounce: number, far: number) {
 			api.hits.set(intersect.object.uuid, hit);
 			// Call ray over
 			// Handle types for the intersect object
-			if (intersect.object.onPointerOver) {
+			if (intersect.object.onRayOver) {
 				invalidate();
-				intersect.object.onPointerOver = (event) => {
+				intersect.object.onRayOver = (event) => {
 					createEvent(event, api, hit, intersect, intersects);
 				};
 			}
@@ -115,10 +115,10 @@ function updateReflection(api: ReflectApi, bounce: number, far: number) {
 		const hit = api.hits.get(intersect.object.uuid);
 		if (!hit) continue;
 
-		// Check onPointerMove
-		if (intersect.object.onPointerMove) {
+		// Check onRayMove
+		if (intersect.object.onRayMove) {
 			invalidate();
-			intersect.object.onPointerMove = (event) => {
+			intersect.object.onRayMove = (event) => {
 				createEvent(event, api, hit, intersect, intersects);
 			};
 		}

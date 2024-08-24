@@ -2,11 +2,7 @@ import * as THREE from "three";
 import { forwardRef, useRef } from "react";
 import { useTexture, Instances, Instance } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-
-interface FlareProps {
-	streak?: [number, number, number];
-	visible?: boolean;
-}
+import { FlareProps } from "../types/Flare.interfaces";
 
 export const Flare = forwardRef<THREE.Group, FlareProps>(({ streak = [8, 20, 1], visible, ...props }, fRef) => {
 	const ref = useRef<THREE.Group>(null);

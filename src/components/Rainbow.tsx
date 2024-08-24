@@ -1,24 +1,9 @@
 import { forwardRef, useRef } from "react";
 import { extend, useFrame, useThree } from "@react-three/fiber";
-import { Mesh, ShaderMaterial } from "three";
+import { Mesh } from "three";
 import { RainbowMaterial } from "../shaders/RainbowShader";
+import { CustomShaderMaterial, RainbowProps } from "../types/Rainbow.interfaces";
 
-interface RainbowProps {
-	startRadius?: number;
-	endRadius?: number;
-	emissiveIntensity?: number;
-	fade?: number;
-}
-
-interface CustomShaderMaterial extends ShaderMaterial {
-	time: number;
-	speed: number;
-	startRadius: number;
-	endRadius: number;
-	emissiveIntensity: number;
-	fade: number;
-	ratio: number;
-}
 extend({ RainbowMaterial });
 
 export const Rainbow = forwardRef<Mesh, RainbowProps>(

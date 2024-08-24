@@ -1,15 +1,15 @@
-import { ThreeElements } from "@react-three/fiber";
+import { GroupProps, ThreeElements } from "@react-three/fiber";
 import { ThreeEvent } from "@react-three/fiber/dist/declarations/src/core/events";
 import { Intersection, Object3D, Vector3 } from "three";
 
-export type ExtendObject3D = Object3D & { isMesh?: boolean, onPointerOver?: (event: ThreeEvent<PointerEvent>) => void; onPointerOut?: (event: ThreeEvent<PointerEvent>) => void; onPointerMove?: (event: ThreeEvent<PointerEvent>) => void; };
+export type ExtendObject3D = Object3D & { isMesh?: boolean, onRayOver?: (event: ThreeEvent<PointerEvent>) => void; onRayOut?: (event: ThreeEvent<PointerEvent>) => void; onRayMove?: (event: ThreeEvent<PointerEvent>) => void; };
 export interface ReflectIntersect extends Intersection {
     direction?: Vector3;
     reflect?: Vector3;
     object: ExtendObject3D
 }
 
-export interface ReflectProps {
+export interface ReflectProps extends GroupProps {
     start?: [number, number, number];
     end?: [number, number, number];
     bounce?: number;

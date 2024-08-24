@@ -37,7 +37,7 @@ export const Box = forwardRef<THREE.Group, JSX.IntrinsicElements["group"]>((prop
 	});
 	return (
 		<group scale={0.5} ref={ref} {...props}>
-			<mesh visible={false} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)} geometry={boxGeometry} />
+			<customMesh visible={false} onRayOver={() => hover(true)} onRayOut={() => hover(false)} geometry={boxGeometry} />
 			<mesh ref={inner} geometry={roundedBoxGeometry}>
 				<meshStandardMaterial color="#333" toneMapped={false} emissiveIntensity={2} />
 			</mesh>

@@ -6,10 +6,12 @@ import { Reflect } from "./Reflect";
 import { ReflectApi } from "../types/Reflect.interfaces";
 
 interface BeamProps {
-	position: [number, number, number];
+	position?: [number, number, number];
 	stride?: number;
 	width?: number;
 	children?: React.ReactNode;
+  bounce?: number;
+  far?: number;
 }
 
 export const Beam = forwardRef<ReflectApi, BeamProps>(({ children, position, stride = 4, width = 8, ...props }, fRef) => {

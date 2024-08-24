@@ -20,27 +20,27 @@ s.absarc(-w / 2 + r, -h / 2 + r, r, 1.5 * Math.PI, 1 * Math.PI, true);
 
 const boxGeometry = new THREE.BoxGeometry();
 const roundedBoxGeometry = new THREE.ExtrudeGeometry(s, {
-  depth: 1,
-  bevelEnabled: false,
+	depth: 1,
+	bevelEnabled: false,
 });
 roundedBoxGeometry.translate(0, 0, -depth / 2);
 roundedBoxGeometry.computeVertexNormals();
 
 export const Box = forwardRef<THREE.Group, JSX.IntrinsicElements["group"]>((props, ref) => {
-  const [hovered, hover] = useState(false);
-  const inner = useRef<THREE.Mesh | null>(null);
-  useFrame(() => {
-    if (inner.current) {
-      const material = inner.current.material as THREE.MeshStandardMaterial;
-      lerpC(material.emissive, hovered ? "white" : "#454545", 0.1);
-    }
-  });
-  return (
-    <group scale={0.5} ref={ref} {...props}>
-      <mesh visible={false} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)} geometry={boxGeometry} />
-      <mesh ref={inner} geometry={roundedBoxGeometry}>
-        <meshStandardMaterial color="#333" toneMapped={false} emissiveIntensity={2} />
-      </mesh>
-    </group>
-  );
+	const [hovered, hover] = useState(false);
+	const inner = useRef<THREE.Mesh | null>(null);
+	useFrame(() => {
+		if (inner.current) {
+			const material = inner.current.material as THREE.MeshStandardMaterial;
+			lerpC(material.emissive, hovered ? "white" : "#454545", 0.1);
+		}
+	});
+	return (
+		<group scale={0.5} ref={ref} {...props}>
+			<mesh visible={false} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)} geometry={boxGeometry} />
+			<mesh ref={inner} geometry={roundedBoxGeometry}>
+				<meshStandardMaterial color="#333" toneMapped={false} emissiveIntensity={2} />
+			</mesh>
+		</group>
+	);
 });

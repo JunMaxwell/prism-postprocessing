@@ -1,6 +1,6 @@
 import { GroupProps } from "@react-three/fiber";
 import { Material, Mesh } from "three";
-import { GLTF } from "three/examples/jsm/Addons.js";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { ReflectEvent } from "./Reflect.interfaces";
 
 export type GLTFResult = GLTF & {

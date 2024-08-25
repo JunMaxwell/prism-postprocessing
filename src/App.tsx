@@ -12,14 +12,16 @@ import { Box } from "./components/Box";
 import { calculateRefractionAngle, lerp, lerpV3 } from "./utils";
 import { CustomShaderMaterial } from "./types/Rainbow.interfaces";
 import { ReflectApi, ReflectEvent } from "./types/Reflect.interfaces";
+import { CustomMesh } from "./types/Prism.interfaces";
+import { FlareRef } from "./types/Flare.interfaces";
 
 function Scene() {
 	const [isPrismHit, hitPrism] = useState(false);
-	const flare = useRef<THREE.Group>(null);
+	const flare = useRef<FlareRef>(null);
 	const ambient = useRef<THREE.AmbientLight>(null);
 	const spot = useRef<THREE.SpotLight>(null);
 	const boxreflect = useRef<ReflectApi>(null);
-	const rainbow = useRef<THREE.Mesh>(null);
+	const rainbow = useRef<CustomMesh>(null);
 
 	const rayOut = useCallback(() => hitPrism(false), []);
 	const rayOver = useCallback((e: ReflectEvent) => {
@@ -28,9 +30,8 @@ function Scene() {
 		e.stopPropagation();
 		hitPrism(true);
 		// Set the intensity really high on first contact
-		const material = rainbow.current.material as CustomShaderMaterial;
-		material.speed = 1;
-		material.emissiveIntensity = 20;
+		(rainbow.current.material as CustomShaderMaterial).speed = 1;
+		(rainbow.current.material as CustomShaderMaterial).emissiveIntensity = 20;
 	}, []);
 
 	const vec = new THREE.Vector3();
@@ -63,9 +64,8 @@ function Scene() {
 		// Tie beam to the mouse
 		boxreflect.current.setRay([(state.pointer.x * state.viewport.width) / 2, (state.pointer.y * state.viewport.height) / 2, 0], [0, 0, 0]);
 		// Animate rainbow intensity
-		const material = rainbow.current.material as CustomShaderMaterial;
-		lerp(material, "emissiveIntensity", isPrismHit ? 2.5 : 0, 0.1);
-		spot.current.intensity = material.emissiveIntensity;
+		lerp(rainbow.current.material, "emissiveIntensity", isPrismHit ? 2.5 : 0, 0.1);
+		spot.current.intensity = (rainbow.current.material as CustomShaderMaterial).emissiveIntensity;
 		// Animate ambience
 		lerp(ambient.current, "intensity", 0, 0.025);
 	});
@@ -100,12 +100,12 @@ function Scene() {
 }
 
 export default function App() {
-	const texture = useLoader(LUTCubeLoader, "/lut/F-6800-STD.cube") as unknown as THREE.Texture;
+	const texture = useLoader(LUTCubeLoader, "/lut/F-6800-STD.cube")
 	return (
 		<Canvas orthographic gl={{ antialias: false }} camera={{ position: [0, 0, 100], zoom: 70 }}>
 			<color attach="background" args={["black"]} />
 			<Scene />
-			<EffectComposer enableNormalPass={false}>
+			<EffectComposer disableNormalPass>
 				<Bloom mipmapBlur levels={9} intensity={1.5} luminanceThreshold={1} luminanceSmoothing={1} />
 				<LUT lut={texture} />
 			</EffectComposer>

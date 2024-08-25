@@ -2,9 +2,9 @@ import * as THREE from "three";
 import { forwardRef, useRef } from "react";
 import { useTexture, Instances, Instance } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { FlareProps } from "../types/Flare.interfaces";
+import { FlareProps, FlareRef } from "../types/Flare.interfaces";
 
-export const Flare = forwardRef<THREE.Group, FlareProps>(({ streak = [8, 20, 1], visible, ...props }, fRef) => {
+export const Flare = forwardRef<FlareRef, FlareProps>(({ streak = [8, 20, 1], visible, ...props }, fRef) => {
 	const ref = useRef<THREE.Group>(null);
 	const [streakTexture, dotTexture, glowTexture] = useTexture([
 		"/textures/lensflare/lensflare2.png",
@@ -42,14 +42,14 @@ export const Flare = forwardRef<THREE.Group, FlareProps>(({ streak = [8, 20, 1],
 					<Instance scale={2} position={[0, 0, -0.7]} />
 				</group>
 			</Instances>
-			<mesh scale={1}>
+			<customMesh scale={1}>
 				<planeGeometry />
 				<meshBasicMaterial map={glowTexture} {...config} opacity={1} />
-			</mesh>
-			<mesh rotation={[0, 0, Math.PI / 2]} scale={streak}>
+			</customMesh>
+			<customMesh rotation={[0, 0, Math.PI / 2]} scale={streak}>
 				<planeGeometry />
 				<meshBasicMaterial map={streakTexture} {...config} opacity={1} />
-			</mesh>
+			</customMesh>
 		</group>
 	);
 });

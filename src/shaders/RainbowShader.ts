@@ -3,7 +3,7 @@ import { shaderMaterial } from "@react-three/drei";
 // "Improving the Rainbow" by Alan Zucconi: https://www.alanzucconi.com/2017/07/15/improving-the-rainbow-2/
 // "More accurate Iridescence" by Julia Poo: https://www.shadertoy.com/view/ltKcWh
 // Code written by https://twitter.com/shuding_
-export const RainbowMaterial: JSX.IntrinsicElements["shaderMaterial"] = shaderMaterial(
+export const RainbowMaterial = shaderMaterial(
     {
         time: 0,
         speed: 1,

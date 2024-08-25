@@ -6,7 +6,7 @@ extend({ CustomMesh });
 
 export function Prism({ onRayOver, onRayOut, onRayMove, ...props }: PrismProps) {
 	// Hacky assertion to get around the fact that useGLTF doesn't return the correct type
-	const { nodes } = useGLTF("/gltf/prism.glb") as unknown as GLTFResult;
+	const { nodes } = useGLTF("/glb/prism.glb") as unknown as GLTFResult;
 	return (
 		<group {...props}>
 			{/* A low-res, invisible representation of the prism that gets hit by the raycaster */}
@@ -21,9 +21,9 @@ export function Prism({ onRayOver, onRayOut, onRayMove, ...props }: PrismProps) 
 				<cylinderGeometry args={[1, 1, 1, 3, 1]} />
 			</customMesh>
 			{/* The visible hi-res prism */}
-			<mesh position={[0, 0, 0.6]} renderOrder={10} scale={2} dispose={null} geometry={nodes.Cone.geometry}>
+			<customMesh position={[0, 0, 0.6]} renderOrder={10} scale={2} dispose={null} geometry={nodes.Cone.geometry}>
 				<meshPhysicalMaterial clearcoat={1} clearcoatRoughness={0} transmission={1} thickness={0.9} roughness={0} toneMapped={false} />
-			</mesh>
+			</customMesh>
 		</group>
 	);
 }

@@ -42,4 +42,5 @@ export interface ReflectEvent extends ThreeEvent<PointerEvent> {
     reflect?: Vector3;
     intersect: ReflectIntersect;
     intersects: ReflectIntersect[];
+    normal?: Vector3;
 }

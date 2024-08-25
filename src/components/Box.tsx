@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { forwardRef, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { lerpC } from "../utils";
+import { CustomMesh } from "../types/Prism.interfaces";
 
 const w = 1;
 const h = 1;
@@ -28,7 +29,7 @@ roundedBoxGeometry.computeVertexNormals();
 
 export const Box = forwardRef<THREE.Group, JSX.IntrinsicElements["group"]>((props, ref) => {
 	const [hovered, hover] = useState(false);
-	const inner = useRef<THREE.Mesh | null>(null);
+	const inner = useRef<CustomMesh | null>(null);
 	useFrame(() => {
 		if (inner.current) {
 			const material = inner.current.material as THREE.MeshStandardMaterial;
@@ -38,9 +39,9 @@ export const Box = forwardRef<THREE.Group, JSX.IntrinsicElements["group"]>((prop
 	return (
 		<group scale={0.5} ref={ref} {...props}>
 			<customMesh visible={false} onRayOver={() => hover(true)} onRayOut={() => hover(false)} geometry={boxGeometry} />
-			<mesh ref={inner} geometry={roundedBoxGeometry}>
+			<customMesh ref={inner} geometry={roundedBoxGeometry}>
 				<meshStandardMaterial color="#333" toneMapped={false} emissiveIntensity={2} />
-			</mesh>
+			</customMesh>
 		</group>
 	);
 });

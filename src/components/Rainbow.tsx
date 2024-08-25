@@ -1,12 +1,12 @@
 import { forwardRef, useRef } from "react";
 import { extend, useFrame, useThree } from "@react-three/fiber";
-import { Mesh } from "three";
 import { RainbowMaterial } from "../shaders/RainbowShader";
 import { CustomShaderMaterial, RainbowProps } from "../types/Rainbow.interfaces";
+import { CustomMesh } from "../types/Prism.interfaces";
 
 extend({ RainbowMaterial });
 
-export const Rainbow = forwardRef<Mesh, RainbowProps>(
+export const Rainbow = forwardRef<CustomMesh, RainbowProps>(
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	({ startRadius = 0, endRadius = 0.5, emissiveIntensity = 2.5, fade = 0.25, ...props }, fRef) => {
 		const material = useRef<CustomShaderMaterial>(null);
@@ -18,7 +18,7 @@ export const Rainbow = forwardRef<Mesh, RainbowProps>(
 			material.current.time += delta * material.current.speed;
 		});
 		return (
-			<mesh ref={fRef} scale={[length, length, 1]} {...props}>
+			<customMesh ref={fRef} scale={[length, length, 1]} {...props}>
 				<planeGeometry />
 				<rainbowMaterial
 					ref={material}
@@ -29,7 +29,7 @@ export const Rainbow = forwardRef<Mesh, RainbowProps>(
 					ratio={1}
 					toneMapped={false}
 				/>
-			</mesh>
+			</customMesh>
 		);
 	}
 );

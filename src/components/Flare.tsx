@@ -7,9 +7,9 @@ import { FlareProps, FlareRef } from "../types/Flare.interfaces";
 export const Flare = forwardRef<FlareRef, FlareProps>(({ streak = [8, 20, 1], visible, ...props }, fRef) => {
 	const ref = useRef<THREE.Group>(null);
 	const [streakTexture, dotTexture, glowTexture] = useTexture([
-		"/textures/lensflare/lensflare2.png",
-		"/textures/lensflare/lensflare3.png",
-		"/textures/lensflare/lensflare0_bw.png",
+		`${import.meta.env.VITE_PUBLIC_URL}/textures/lensflare/lensflare2.png`,
+		`${import.meta.env.VITE_PUBLIC_URL}/textures/lensflare/lensflare3.png`,
+		`${import.meta.env.VITE_PUBLIC_URL}/textures/lensflare/lensflare0_bw.png`,
 	]);
 	const config = {
 		transparent: true,

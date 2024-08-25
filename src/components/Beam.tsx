@@ -18,7 +18,7 @@ export const Beam = forwardRef<ReflectApi, BeamProps>(({ children, position, str
 	const streaks = useRef<THREE.InstancedMesh>(null);
 	const glow = useRef<THREE.InstancedMesh>(null);
 	const reflect = useRef<ReflectApi>(null);
-	const [streakTexture, glowTexture] = useTexture(["/textures/lensflare/lensflare2.png", "/textures/lensflare/lensflare0_bw.jpg"]);
+	const [streakTexture, glowTexture] = useTexture([`${import.meta.env.VITE_PUBLIC_URL}/textures/lensflare/lensflare2.png`, `${import.meta.env.VITE_PUBLIC_URL}/textures/lensflare/lensflare0_bw.jpg`]);
 
 	const obj = new THREE.Object3D();
 	const f = new THREE.Vector3();

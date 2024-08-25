@@ -103,7 +103,7 @@ export default function App() {
 	const texture = useLoader(LUTCubeLoader, `${import.meta.env.VITE_PUBLIC_URL}/lut/F-6800-STD.cube`)
 	return (
 		<Canvas orthographic gl={{ antialias: false }} camera={{ position: [0, 0, 100], zoom: 70 }}>
-			<color attach="background" args={["black"]} />
+			<color attach="background" args={["white"]} />
 			<Scene />
 			<EffectComposer disableNormalPass>
 				<Bloom mipmapBlur levels={9} intensity={1.5} luminanceThreshold={1} luminanceSmoothing={1} />
